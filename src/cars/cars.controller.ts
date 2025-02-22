@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CarsService } from './cars.service';
+import { CreateCarDto } from './dtos/create-car.dto';
+import { UpdateCarDto } from './dtos/update-car.dto';
 
 @Controller('cars')
 export class CarsController {
@@ -17,27 +19,31 @@ export class CarsController {
 
     // Obtener carro por su ID
     @Get(':id')     //Aquí estamos decorando el parametro ID para que sepa que es el parametro de la URL
-    getCarById(@Param('id', ParseIntPipe) id: number){
-        return this.carsServie.findOneById(Number(id));
+    getCarById(@Param('id' , ParseUUIDPipe) id: string){
+        return this.carsServie.findOneById(id);
     }
 
+    // ! Esto está chido para los comentarios
     @Post()
-    createCar( @Body() body: any ){
-        return body;
+    // @UsePipes( ValidationPipe )
+    createCar( @Body() createCarDto: CreateCarDto ){
+
+        
+        return this.carsServie.create(createCarDto)
     }
 
     @Patch(':id')
     updateCar( 
-        @Param('id', ParseIntPipe) id: number,
-        @Body() body: any ){
-        return body;
+        @Param('id', ParseUUIDPipe ) id: string, 
+        @Body() updateCarDto: UpdateCarDto ) 
+    {
+        return this.carsServie.update( id, updateCarDto );
     }
 
     @Delete(':id')
-    deleteCar( @Param('id', ParseIntPipe) id: number ){
-        return {
-            methos: "Delete",
-            msg: `Deleted car with id: ${id}`
-        };
+    deleteCar( @Param('id', ParseUUIDPipe) id: string ){
+        
+        return this.carsServie.delete(id)
+
     }
 }
