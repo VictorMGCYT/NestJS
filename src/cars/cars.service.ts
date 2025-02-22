@@ -83,7 +83,7 @@ export class CarsService {
     public delete(id: string){
 
         if (!(this.findOneById(id))) {
-            return {msg: "el carro no existe"}
+            return
         }
 
         const newCars = this.cars.filter( car => car.id !== id)
