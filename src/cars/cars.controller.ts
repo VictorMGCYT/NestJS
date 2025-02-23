@@ -6,21 +6,21 @@ import { UpdateCarDto } from './dtos/update-car.dto';
 @Controller('cars')
 export class CarsController {
 
-    private readonly carsServie: CarsService;
+    private readonly carsService: CarsService;
 
     constructor(carsService: CarsService){
-        this.carsServie = carsService
+        this.carsService = carsService
     }
 
     @Get()
     getAllCars(){
-        return this.carsServie.findAll();
+        return this.carsService.findAll();
     }
 
     // Obtener carro por su ID
     @Get(':id')     //Aquí estamos decorando el parametro ID para que sepa que es el parametro de la URL
     getCarById(@Param('id' , ParseUUIDPipe) id: string){
-        return this.carsServie.findOneById(id);
+        return this.carsService.findOneById(id);
     }
 
     // ! Esto está chido para los comentarios
@@ -29,7 +29,7 @@ export class CarsController {
     createCar( @Body() createCarDto: CreateCarDto ){
 
         
-        return this.carsServie.create(createCarDto)
+        return this.carsService.create(createCarDto)
     }
 
     @Patch(':id')
@@ -37,13 +37,13 @@ export class CarsController {
         @Param('id', ParseUUIDPipe ) id: string, 
         @Body() updateCarDto: UpdateCarDto ) 
     {
-        return this.carsServie.update( id, updateCarDto );
+        return this.carsService.update( id, updateCarDto );
     }
 
     @Delete(':id')
     deleteCar( @Param('id', ParseUUIDPipe) id: string ){
         
-        return this.carsServie.delete(id)
+        return this.carsService.delete(id)
 
     }
 }
