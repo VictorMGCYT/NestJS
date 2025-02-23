@@ -27,7 +27,6 @@ export class BrandsService {
 		}
 
 		this.brans.push(brand);
-
 		return brand;
 
 	}
@@ -42,7 +41,6 @@ export class BrandsService {
 		if (!brand) {
 			throw new NotFoundException(`Car with id: ${id} was not found`);
 		}
-
 		return brand;
 	}
 
@@ -51,28 +49,24 @@ export class BrandsService {
 		let brandDB: Brand = this.findOne(id);
 
 		this.brans = this.brans.map( brand => {
-
 			if (brand.id === id) {
-			
 			brandDB.updatedAt = new Date().getTime();
-
 			brandDB = {
 				...brandDB,
 				...updateBrandDto
 			}
-
 			return brandDB;
 			}
-
 			return brand;
 		})
-
 		return brandDB;
 	}
 
 	remove(id: string) {
-
 		return this.brans = this.brans.filter(brand => brand.id !== id)
-
 	}
+
+	fillBrandsWithSeedData( brands: Brand[] ){
+        this.brans = brands;
+    }
 }

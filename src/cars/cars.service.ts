@@ -38,7 +38,6 @@ export class CarsService {
         }
 
         this.cars.push(newCar)
-
         return {
             msg: "Car added correctly",
             newCar
@@ -49,12 +48,10 @@ export class CarsService {
     public update(id: string, updateCarDto: UpdateCarDto){
 
         let carDB = this.findOneById( id );
-
         // ESTE CONSOLE LOG ES IMPORTANTE PARA LA EXPLICACIÓN
         console.log(updateCarDto);
 
         this.cars = this.cars.map( car => {
-
             if ( car.id === id ) {
                 carDB = { 
                     ...carDB,
@@ -63,10 +60,9 @@ export class CarsService {
                 }
                 return carDB;
             }
-
             return car;
         })
-        
+
         return carDB;
     }
 
@@ -77,8 +73,12 @@ export class CarsService {
         }
 
         const newCars = this.cars.filter( car => car.id !== id)
-
         return this.cars = newCars;
+    }
+
+    // Llenar datos precargados de data
+    fillCarsWithSeedData( cars: Car[] ){
+        this.cars = cars;
     }
 
 }
